@@ -12,51 +12,49 @@ const FlipCard = ({ number = 0 }) => {
       w="100px"
       h="140px"
       perspective="1000px"
-      position="relative"
+      onHoverStart={() => setIsFlipped(!isFlipped)}
       cursor="pointer"
     >
       <MotionBox
         position="absolute"
         w="100%"
         h="100%"
-        bg="white"
-        borderRadius="5px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
         transformStyle="preserve-3d"
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.4 }}
       >
-        {/* Front Side */}
+        {/* Frente */}
         <Box
           position="absolute"
           w="100%"
           h="100%"
           bg="white"
+          borderRadius="10px"
           display="flex"
           alignItems="center"
           justifyContent="center"
           backfaceVisibility="hidden"
-          borderRadius="5px"
+          boxShadow="lg"
         >
-          <Text fontSize="64px" color="#7D001C">{number}</Text>
+          <Text fontSize="64px" color="#7D001C">
+            {number}
+          </Text>
         </Box>
 
-        {/* Back Side */}
+        {/* Reverso */}
         <Box
           position="absolute"
           w="100%"
           h="100%"
           bg="white"
+          borderRadius="10px"
+          transform="rotateY(180deg)"
+          backfaceVisibility="hidden"
           display="flex"
           alignItems="center"
           justifyContent="center"
-          transform="rotateY(180deg)"
-          backfaceVisibility="hidden"
-          borderRadius="5px"
         >
-          <Box w="85%" h="85%" bg="#7D001C" borderRadius="4px" />
+          <Box w="90%" h="90%" bg="#7D001C" borderRadius="8px" />
         </Box>
       </MotionBox>
     </MotionBox>

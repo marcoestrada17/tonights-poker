@@ -1,37 +1,66 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
-const PokerTable = () => {
+const PokerTable = ({ mainCard, userCards }) => {
   return (
     <Box
-      w={{ base: "100%", sm: "80%", md: "70%", lg: "60%" }} // Adjust width based on screen size
-      h={{ base: "200px", sm: "250px", md: "300px" }} // Adjust height based on screen size
+      w={{ base: "100%", sm: "80%", md: "70%", lg: "60%" }}
+      h={{ base: "200px", sm: "250px", md: "300px" }}
       bg="#996E66"
-      borderRadius="10px"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+      borderRadius="20px"
       position="relative"
-      mx="auto" // Center horizontally
+      mx="auto"
+      boxShadow="xl"
+      border="4px solid #5A463C"
     >
-      <Box
-        w={{ base: "90%", sm: "80%", md: "70%" }} // Adjust width based on screen size
-        h={{ base: "180px", sm: "230px", md: "250px" }} // Adjust height based on screen size
-        bg="#F7E5A4"
-        borderRadius="10px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        p={{ base: "8px", sm: "15px", md: "20px" }} // Padding for the middle box
-      >
+      {/* Carta principal */}
+      {mainCard && (
         <Box
-          w="400px" // Adjust width based on screen size
-          h="200px"
-          bg="#318D5A"
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          w="100px"
+          h="140px"
+          bg="white"
           borderRadius="10px"
-          p={{ base: "5px", sm: "10px", md: "15px" }} // Padding for the inner box
-        />
-      </Box>
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          boxShadow="lg"
+        >
+          <Text fontSize="64px" color="#318D5A">{mainCard}</Text>
+        </Box>
+      )}
+
+      {/* Cartas de los usuarios - Radio aumentado */}
+      {userCards?.map((user, index) => {
+        const angle = (360 / userCards.length) * index;
+        const radius = 180; // Aumentado de 120 a 160
+        const x = radius * Math.cos((angle * Math.PI) / 180);
+        const y = radius * Math.sin((angle * Math.PI) / 180);
+
+        return (
+          <Box
+            key={user.id}
+            position="absolute"
+            top={`calc(50% + ${y}px)`}
+            left={`calc(50% + ${x}px)`}
+            transform="translate(-50%, -50%)"
+            w="80px"
+            h="120px"
+            bg="white"  
+            borderRadius="10px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            boxShadow="md"
+            border="2px solid #943126 "  // Borde azul
+          >
+            <Text fontSize="48px" color="#6495ED">{user.card}</Text>
+          </Box>
+        );
+      })}
     </Box>
   );
 };

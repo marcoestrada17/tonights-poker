@@ -1,39 +1,28 @@
-import { Box, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box } from "@chakra-ui/react";
+import React from "react";
 import FlipCard from "./FlipCard";
 
-const CardList = () => {
-  const [selectedCard, setSelectedCard] = useState<number | null>(null); 
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null); 
-  const cards = [1, 2, 3, 4, 5]; 
+const CardList = ({ onSelectCard }) => {
+  const [selectedCard, setSelectedCard] = React.useState<number | null>(null);
+  const cards = [1, 2, 3, 5, 8, 13, 21];
 
-  const handleCardClick = (cardNumber: number) => {
-    setSelectedCard(cardNumber); 
-    setSelectedNumber(cardNumber); 
-    console.log("Selected Card Number:", cardNumber); 
+  const handleClick = (cardNumber: number) => {
+    setSelectedCard(cardNumber);
+    onSelectCard(cardNumber);
   };
 
   return (
     <Box display="flex" justifyContent="center" gap="20px" flexWrap="wrap">
-      {/* Display the selected card number */}
-      {selectedNumber && (
-        <Text fontSize="xl" mb={4}>Selected Card Number: {selectedNumber}</Text>
-      )}
-
-      {cards.map((cardNumber) => (
+      {cards.map((card) => (
         <Box
-          key={cardNumber}
-          onClick={() => handleCardClick(cardNumber)}
-          position="relative"
+          key={card}
+          onClick={() => handleClick(card)}
+          transform={`translateY(${selectedCard === card ? "-20px" : "0"})`}
+          transition="transform 0.2s"
+          _hover={{ transform: "translateY(-20px)" }}
           cursor="pointer"
-          transform={`translateY(${selectedCard === cardNumber ? "-20px" : "0px"})`} 
-          transition="transform 0.3s ease-in-out"
-          _hover={{
-            transform: "translateY(-20px)",
-            transition: "transform 0.3s ease-in-out",
-          }}
         >
-          <FlipCard number={cardNumber} />
+          <FlipCard number={card} />
         </Box>
       ))}
     </Box>

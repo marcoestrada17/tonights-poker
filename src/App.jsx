@@ -1,33 +1,46 @@
-import {
-  Box,
-  ClientOnly,
-  HStack,
-  Skeleton,
-  VStack,
-} from "@chakra-ui/react"
-import { ColorModeToggle } from "./components/color-mode-toggle"
-import CardList from './components/CardList'
-import PokerTable from './components/PokerTable'
+import { Box, VStack, HStack } from "@chakra-ui/react";
+import { useState } from "react";
+import CardList from './components/CardList';
+import PokerTable from './components/PokerTable';
+import { ColorModeToggle } from './components/color-mode-toggle';
 
 export default function Page() {
+  const [mainCard, setMainCard] = useState(21); // Ejemplo: carta principal
+  const [userCards, setUserCards] = useState([]);
+
+  const handleSelectCard = (cardNumber) => {
+    const newUser = {
+      id: `user-${Date.now()}`,
+      card: cardNumber
+    };
+    setUserCards([...userCards, newUser]);
+  };
+
   return (
-    <Box textAlign="center" fontSize="xl" pt="30vh">
-      <VStack gap="8">
-        <HStack gap="10">
-        <PokerTable />
-        </HStack>
+    <Box 
+      textAlign="center" 
+      fontSize="xl" 
+      pt="10vh"
+      bg="white"
+      minH="100vh"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
+      {/* Mesa */}
+      <Box flex="1" display="flex" alignItems="center" mb="50px"> {/* Margen inferior */}
+        <PokerTable mainCard={mainCard} userCards={userCards} />
+      </Box>
 
+      {/* Cartas seleccionables (debajo de la mesa) */}
+      <Box w="100%" py="40px" bg="gray.50"> {/* Fondo gris claro */}
+        <CardList onSelectCard={handleSelectCard} />
+      </Box>
 
-        <HStack>
-          <CardList />
-        </HStack>
-      </VStack>
-
+      {/* Botón de tema */}
       <Box pos="absolute" top="4" right="4">
-        <ClientOnly fallback={<Skeleton w="10" h="10" rounded="md" />}>
-          <ColorModeToggle />
-        </ClientOnly>
+        <ColorModeToggle />
       </Box>
     </Box>
-  )
+  );
 }
