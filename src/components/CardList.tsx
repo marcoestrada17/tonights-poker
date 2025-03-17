@@ -4,7 +4,7 @@ import FlipCard from "./FlipCard";
 
 const CardList = ({ onSelectCard }) => {
   const [selectedCard, setSelectedCard] = React.useState<number | null>(null);
-  const cards = [1, 2, 3, 5, 8, 13, 21];
+  const cards = [1, 2, 3, 4, 5];
 
   const handleClick = (cardNumber: number) => {
     setSelectedCard(cardNumber);
