@@ -34,10 +34,6 @@ export default function Page() {
         <PokerTable mainCard={mainCard} userCards={userCards} />
       </Box>
   
-      {/* Cartas seleccionables (debajo de la mesa) */}
-      <Box w="100%" py="40px" bg="gray.50"> {/* Fondo gris claro */}
-        <CardList onSelectCard={handleSelectCard} />
-      </Box>
   
       {/* Botón de tema */}
       <Box pos="absolute" top="4" right="4">

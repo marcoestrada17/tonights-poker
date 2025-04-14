@@ -1,99 +1,80 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Image } from "@chakra-ui/react";
 import React from "react";
-
-interface UserCard {
-  id: number;
-  card: string;
-}
+import CardList from "./CardList";
 
 interface PokerTableProps {
   mainCard?: string;
-  userCards?: UserCard[];
 }
 
-const PokerTable: React.FC<PokerTableProps> = ({ mainCard, userCards }) => {
+const PokerTable: React.FC<PokerTableProps> = ({ mainCard }) => {
   return (
     <Box
-      w={{ base: "400px", sm: "500px", md: "600px" }} // Tamaño de la mesa
-      h={{ base: "400px", sm: "500px", md: "600px" }} // Tamaño de la mesa
-      bg="green.800" // Fondo verde más intenso
-      borderRadius="50%" // Mesa redonda
-      position="relative"
-      mx="auto"
-      boxShadow="xl"
-      border="8px solid gold" // Borde dorado exterior
+      w="100vw"
+      h="100vh"
+      bg="green.900"
       display="flex"
       alignItems="center"
       justifyContent="center"
+      overflow="hidden"
     >
-      {/* Borde interior dorado */}
-      <Box
-        w="95%" // Ancho del borde interior aumentado
-        h="95%" // Alto del borde interior aumentado
-        borderRadius="50%" // Borde interior redondo
-        border="4px solid gold" // Borde dorado interior
-        position="absolute"
-      />
+      <Box position="relative" w="90vmin" h="90vmin">
+        {/* Imagen de la mesa */}
+        <Image
+          src="/table-nobg-svg-01.svg"
+          alt="Mesa de poker"
+          objectFit="contain"
+          w="100%"
+          h="100%"
+          position="absolute"
+          top="0"
+          left="0"
+          zIndex={0}
+        />
 
-      {/* Carta principal */}
-      {mainCard && (
+      
+        {/* (Opcional) Carta principal en el centro */}
+        {mainCard && (
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            transform="translate(-50%, -50%)"
+            w="14%"
+            h="20%"
+            bg="green.700"
+            borderRadius="15px"
+            border="3px solid black"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            zIndex={1}
+          >
+            <Box
+              w="90%"
+              h="90%"
+              bg="white"
+              borderRadius="10px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              boxShadow="lg"
+            >
+              {mainCard}
+            </Box>
+          </Box>
+        )}
+
+        {/* Lista de cartas en la parte inferior */}
         <Box
           position="absolute"
-          top="50%"
+          bottom="5%"
           left="50%"
-          transform="translate(-50%, -50%)"
-          w="120px"
-          h="160px"
-          bg="green.700" // Fondo verde para el contenedor de la carta principal
-          borderRadius="15px"
-          border="3px solid black"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          transform="translateX(-50%)"
+          zIndex={1}
         >
-          <Box
-            w="100px"
-            h="140px"
-            bg="white"
-            borderRadius="10px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            boxShadow="lg"
-          >
-            <Text fontSize="64px" color="#318D5A">{mainCard}</Text>
-          </Box>
+          <CardList onSelectCard={undefined} />
         </Box>
-      )}
-
-      {/* Cartas de los usuarios */}
-      {userCards?.map((user, index) => {
-        const angle = (360 / userCards.length) * index;
-        const radius = 120; // Radio de distribución reducido (cartas más cerca del centro)
-        const x = radius * Math.cos((angle * Math.PI) / 180);
-        const y = radius * Math.sin((angle * Math.PI) / 180);
-
-        return (
-          <Box
-            key={user.id}
-            position="absolute"
-            top={`calc(50% + ${y}px)`}
-            left={`calc(50% + ${x}px)`}
-            transform="translate(-50%, -50%)"
-            w="80px"
-            h="120px"
-            bg="white"
-            borderRadius="10px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            boxShadow="md"
-            border="2px solid #943126"
-          >
-            <Text fontSize="48px" color="#6495ED">{user.card}</Text>
-          </Box>
-        );
-      })}
+      </Box>
     </Box>
   );
 };
