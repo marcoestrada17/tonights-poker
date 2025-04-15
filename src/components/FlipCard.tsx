@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const MotionBox = motion(Box);
 
-const FlipCard = ({ number = 0 }) => {
+const FlipCard = ({ number = 0, index = 0 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -14,6 +14,10 @@ const FlipCard = ({ number = 0 }) => {
       perspective="1000px"
       onHoverStart={() => setIsFlipped(!isFlipped)}
       cursor="pointer"
+      position="relative"
+      initial={{ y: 200, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <MotionBox
         position="absolute"

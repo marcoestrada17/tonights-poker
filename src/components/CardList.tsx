@@ -12,19 +12,26 @@ const CardList = ({ onSelectCard }) => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" gap="20px" flexWrap="wrap">
-      {cards.map((card) => (
-        <Box
-          key={card}
-          onClick={() => handleClick(card)}
-          transform={`translateY(${selectedCard === card ? "-20px" : "0"})`}
-          transition="transform 0.2s"
-          _hover={{ transform: "translateY(-20px)" }}
-          cursor="pointer"
-        >
-          <FlipCard number={card} />
-        </Box>
-      ))}
+    <Box position="relative" display="flex" justifyContent="center" gap="20px">
+      {cards.map((card, index) => {
+        const isSelected = selectedCard === card;
+
+        return (
+          <Box
+            key={card}
+            onClick={() => handleClick(card)}
+            position={isSelected ? "absolute" : "relative"}
+            top={isSelected ? "-120px" : "0"}
+            left={isSelected ? "calc(50% - 50px)" : "auto"} // Centrado respecto a la mesa
+            zIndex={isSelected ? 999 : 1}
+            transform={isSelected ? "scale(1.1)" : "none"}
+            transition="all 0.3s ease"
+            cursor="pointer"
+          >
+            <FlipCard number={card} index={index} />
+          </Box>
+        );
+      })}
     </Box>
   );
 };
